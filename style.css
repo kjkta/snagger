@@ -1,0 +1,13 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.selectedTag:focus, .selectedTag:hover {
+  border-color: black !important;
+}
+
+[data-reach-combobox-option][data-highlighted] {
+  background-color: blue;
+  color: white;
+}
