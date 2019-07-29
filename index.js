@@ -16,7 +16,7 @@ const SET_QUERY = "SET_QUERY"
 const ADD_TAG = "ADD_TAG";
 const DELETE_TAG = "DELETE_TAG";
 
-function Snagger({
+function Tagger({
   initialSelectedTags = [{ id: 1, name: "Dogs" }],
   initialStoredTags = []
 }) {
@@ -207,4 +207,4 @@ const savedTags = [
 ];
 
 const rootElement = document.getElementById("root");
-ReactDOM.render(<Snagger initialStoredTags={savedTags} />, rootElement);
+ReactDOM.render(<Tagger initialStoredTags={savedTags} />, rootElement);
