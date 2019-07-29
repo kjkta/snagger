@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import uuid from "uuid/v4"
 import {
   Combobox,
   ComboboxInput,
@@ -19,9 +20,6 @@ function Snagger({
   initialSelectedTags = [{ id: 1, name: "Dogs" }],
   initialStoredTags = []
 }) {
-  const initialState = { query: "", selectedTags: initialSelectedTags, storedTags: initialStoredTags }
-  const SnaggerContext = React.createContext(initialState)
-
   const [{ query, selectedTags, storedTags }, dispatch] = React.useReducer(
     function (state, action) {
       switch (action.type) {
@@ -51,7 +49,7 @@ function Snagger({
           return state;
       }
     },
-    initialState
+    { query: "", selectedTags: initialSelectedTags, storedTags: initialStoredTags }
   );
 
   const inputRef = React.useRef(null)
@@ -129,7 +127,7 @@ function Snagger({
               dispatch({
                 type: ADD_TAG,
                 payload: {
-                  id: Math.random(), // TODO: Make this a uuid
+                  id: uuid(), // TODO: Make this a uuid
                   name: itemName
                 }
               });
