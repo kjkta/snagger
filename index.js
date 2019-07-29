@@ -15,17 +15,19 @@ const SET_QUERY = "SET_QUERY"
 const ADD_TAG = "ADD_TAG";
 const DELETE_TAG = "DELETE_TAG";
 
-function Tagger({
+function Snagger({
   initialSelectedTags = [{ id: 1, name: "Dogs" }],
   initialStoredTags = []
 }) {
+  const initialState = { query: "", selectedTags: initialSelectedTags, storedTags: initialStoredTags }
+  const SnaggerContext = React.createContext(initialState)
 
   const [{ query, selectedTags, storedTags }, dispatch] = React.useReducer(
     function (state, action) {
       switch (action.type) {
         case SET_QUERY: return { ...state, query: action.payload }
         case ADD_TAG: {
-          const tag = {...action.payload, uses: 0};
+          const tag = { ...action.payload, uses: 0 };
           const newSelectedTags = [...state.selectedTags, tag];
           // If the new Tag is not in the stored tag, add it
           const isNewTag = !state.storedTags.find(
@@ -49,7 +51,7 @@ function Tagger({
           return state;
       }
     },
-    { query: "", selectedTags: initialSelectedTags, storedTags: initialStoredTags }
+    initialState
   );
 
   const inputRef = React.useRef(null)
@@ -65,7 +67,7 @@ function Tagger({
     }
     return false
   }
-  
+
   const optionStyle = { padding: 5, cursor: "pointer" };
   return (
     <div>
@@ -135,7 +137,7 @@ function Tagger({
           }}
         >
           <ComboboxInput
-          ref={inputRef}
+            ref={inputRef}
             style={{
               fontSize: 14,
               border: "none",
@@ -158,6 +160,7 @@ function Tagger({
               position: "absolute", top: -5, left: "50%", height: 10, width: 10, backgroundColor: "white", borderLeft: "1px solid lightgrey", borderTop: "1px solid lightgrey", transform: "translateX(-50%) rotate(45deg)",
             }} />
             <ComboboxList style={{
+              position: "relative",
               listStyle: "none", padding: 0, margin: 0, backgroundColor: "white",
               borderRadius: 3,
               boxShadow: "0px 1px .5px #ccc",
@@ -173,7 +176,7 @@ function Tagger({
                 .map(tag => {
                   return (
                     <ComboboxOption style={optionStyle} value={tag.name}>
-                    <ComboboxOptionText/> ({tag.uses})
+                      <ComboboxOptionText /> ({tag.uses})
                     </ComboboxOption>
                   );
                 })}
@@ -206,4 +209,4 @@ const savedTags = [
 ];
 
 const rootElement = document.getElementById("root");
-ReactDOM.render(<Tagger initialStoredTags={savedTags} />, rootElement);
+ReactDOM.render(<Snagger initialStoredTags={savedTags} />, rootElement);
